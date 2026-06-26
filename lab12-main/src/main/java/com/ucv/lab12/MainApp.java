@@ -10,18 +10,20 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
         AppContext context = AppContext.getInstance();
 
         FXMLLoader loader = new FXMLLoader(
-            getClass().getResource("/com/ucv/lab12/distribuidor-view.fxml")
+                getClass().getResource("/com/ucv/lab12/Menu.fxml")
         );
+
         loader.setControllerFactory(context::getController);
 
-        Scene scene = new Scene(loader.load(), 1100, 620);
-        stage.setTitle("Mantenimiento de Distribuidores");
+        Scene scene = new Scene(loader.load(), 900, 600);
+
+        stage.setTitle("Sistema de Gestión");
         stage.setScene(scene);
-        stage.setMinWidth(900);
-        stage.setMinHeight(500);
+        stage.setResizable(false);
         stage.show();
     }
 

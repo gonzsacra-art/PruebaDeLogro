@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ucv.lab12.controller.MenuController"
+            style="-fx-background-color:#ECEFF1;">
+
+    <!-- ENCABEZADO -->
+    <top>
+        <VBox alignment="CENTER"
+              spacing="8"
+              style="-fx-background-color:#1565C0; -fx-padding:25;">
+
+            <Label text="SISTEMA DE GESTIÓN"
+                   style="-fx-text-fill:white; -fx-font-size:30; -fx-font-weight:bold;">
+                <font>
+                    <Font size="30"/>
+                </font>
+            </Label>
+
+            <Label text="Universidad César Vallejo"
+                   style="-fx-text-fill:white; -fx-font-size:15;"/>
+        </VBox>
+    </top>
+
+    <!-- CONTENIDO -->
+    <center>
+
+        <HBox alignment="CENTER"
+              spacing="40"
+              BorderPane.alignment="CENTER">
+
+            <padding>
+                <Insets top="40" bottom="40"/>
+            </padding>
+
+            <!-- DISTRIBUIDORES -->
+            <VBox alignment="CENTER"
+                  spacing="15"
+                  prefWidth="280"
+                  prefHeight="280"
+                  style="-fx-background-color:white;
+                         -fx-background-radius:12;
+                         -fx-border-radius:12;
+                         -fx-border-color:#CFD8DC;
+                         -fx-effect:dropshadow(gaussian,rgba(0,0,0,0.20),8,0,0,2);">
+
+                <Label text="📦"
+                       style="-fx-font-size:60;"/>
+
+                <Label text="Módulo Distribuidores"
+                       style="-fx-font-size:20;
+                              -fx-font-weight:bold;
+                              -fx-text-fill:#1565C0;"/>
+
+                <Label text="Administrar distribuidores del sistema."
+                       wrapText="true"
+                       alignment="CENTER"
+                       style="-fx-text-fill:#555;"
+                       maxWidth="210"/>
+
+                <Button fx:id="btnDistribuidores"
+                        text="Ingresar"
+                        onAction="#abrirDistribuidores"
+                        prefWidth="170"
+                        prefHeight="40"
+                        style="-fx-background-color:#1976D2;
+                               -fx-text-fill:white;
+                               -fx-font-weight:bold;
+                               -fx-background-radius:6;
+                               -fx-cursor:hand;"/>
+
+            </VBox>
+
+            <!-- VIDEOJUEGOS -->
+            <VBox alignment="CENTER"
+                  spacing="15"
+                  prefWidth="280"
+                  prefHeight="280"
+                  style="-fx-background-color:white;
+                         -fx-background-radius:12;
+                         -fx-border-radius:12;
+                         -fx-border-color:#CFD8DC;
+                         -fx-effect:dropshadow(gaussian,rgba(0,0,0,0.20),8,0,0,2);">
+
+                <Label text="🎮"
+                       style="-fx-font-size:60;"/>
+
+                <Label text="Módulo Videojuegos"
+                       style="-fx-font-size:20;
+                              -fx-font-weight:bold;
+                              -fx-text-fill:#1565C0;"/>
+
+                <Label text="Administrar videojuegos registrados."
+                       wrapText="true"
+                       alignment="CENTER"
+                       style="-fx-text-fill:#555;"
+                       maxWidth="210"/>
+
+                <Button fx:id="btnVideojuegos"
+                        text="Ingresar"
+                        onAction="#abrirVideojuegos"
+                        prefWidth="170"
+                        prefHeight="40"
+                        style="-fx-background-color:#43A047;
+                               -fx-text-fill:white;
+                               -fx-font-weight:bold;
+                               -fx-background-radius:6;
+                               -fx-cursor:hand;"/>
+
+            </VBox>
+
+        </HBox>
+
+    </center>
+
+    <!-- PIE -->
+    <bottom>
+
+        <HBox alignment="CENTER_RIGHT"
+              spacing="10"
+              style="-fx-padding:15;">
+
+            <Button fx:id="btnSalir"
+                    text="Salir"
+                    onAction="#salir"
+                    prefWidth="110"
+                    style="-fx-background-color:#D32F2F;
+                           -fx-text-fill:white;
+                           -fx-font-weight:bold;
+                           -fx-cursor:hand;"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>
