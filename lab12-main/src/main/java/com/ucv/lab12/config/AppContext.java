@@ -1,21 +1,13 @@
 package com.ucv.lab12.config;
 
-import com.ucv.lab12.controller.DistribuidorController;
-import com.ucv.lab12.controller.DistribuidorFormController;
-import com.ucv.lab12.controller.MenuController;
-import com.ucv.lab12.controller.VideojuegoController;
-import com.ucv.lab12.repository.DistribuidorRepository;
-import com.ucv.lab12.repository.IDistribuidorRepository;
-import com.ucv.lab12.repository.VideojuegoRepository;
-import com.ucv.lab12.repository.IVideojuegoRepository;
-import com.ucv.lab12.service.DistribuidorService;
-import com.ucv.lab12.service.IDistribuidorService;
-import com.ucv.lab12.service.VideojuegoService;
-import com.ucv.lab12.service.IVideojuegoService;
+import com.ucv.lab12.config.DatabaseConfig;
+import com.ucv.lab12.repository.*;
+import com.ucv.lab12.service.*;
+import com.ucv.lab12.controller.*;
 
 /**
  * Contenedor de Inyección de Dependencias (DI).
- * Instancia y conecta todas las capas: config → repository → service → controller.
+ * Instancia y conecta todas las capas del sistema de forma limpia.
  */
 public class AppContext {
 
@@ -23,24 +15,17 @@ public class AppContext {
 
     private final DatabaseConfig dbConfig;
 
-    // Capa de Distribuidores
-    private final IDistribuidorRepository distribuidorRepository;
-    private final IDistribuidorService distribuidorService;
-
-    // Capa de Videojuegos
-    private final IVideojuegoRepository videojuegoRepository;
-    private final IVideojuegoService videojuegoService;
+    // Capa de Deudas UGEL
+    private final IDeudaUGELRepository deudaUGELRepository;
+    private final IDeudaUGELService deudaUGELService;
 
     private AppContext() {
+        // 1. Inicializar la configuración de base de datos
         this.dbConfig = new DatabaseConfig();
 
-        // Inicialización de módulo Distribuidor
-        this.distribuidorRepository = new DistribuidorRepository(dbConfig);
-        this.distribuidorService = new DistribuidorService(distribuidorRepository);
-
-        // Inicialización de módulo Videojuego
-        this.videojuegoRepository = new VideojuegoRepository(dbConfig);
-        this.videojuegoService = new VideojuegoService(videojuegoRepository);
+        // 2. Inicialización única del módulo Deuda UGEL
+        this.deudaUGELRepository = new DeudaUGELRepository(dbConfig);
+        this.deudaUGELService = new DeudaUGELService(deudaUGELRepository);
     }
 
     public static AppContext getInstance() {
@@ -52,45 +37,44 @@ public class AppContext {
 
     /**
      * Factory de controladores para FXMLLoader.setControllerFactory().
-     * Inyecta el servicio en cada controlador correspondiente.
+     * Inyecta de forma dinámica los servicios requeridos en cada ventana (FXML).
      */
     public Object getController(Class<?> type) {
 
-        if (type == MenuController.class) {
-            return new MenuController();
+        // 1. Controladores de Navegación del Panel Principal
+        if (type == MenuModuloController.class) {
+            return new MenuModuloController();
         }
 
-        // Inyección para controladores de Distribuidor
-        if (type == DistribuidorController.class) {
-            return new DistribuidorController(distribuidorService);
+        // 2. Controladores de Deuda (Inyección del servicio hacia los constructores)
+        if (type == ModuloRegistroDeudaController.class) {
+            return new ModuloRegistroDeudaController(deudaUGELService);
         }
 
-        if (type == DistribuidorFormController.class) {
-            return new DistribuidorFormController(distribuidorService);
+        if (type == ModuloReporteDeudaController.class) {
+            return new ModuloReporteDeudaController(deudaUGELService);
         }
 
-        // Inyección para controlador unificado de Videojuego
-        if (type == VideojuegoController.class) {
-            return new VideojuegoController(videojuegoService);
-        }
-
+        // Fallback para constructores vacíos por defecto (p.ej. si usas InicioSesionController de forma opcional)
         try {
             return type.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("No se pudo crear el controlador: " + type.getName(), e);
+            throw new RuntimeException("No se pudo instanciar el controlador: " + type.getName(), e);
         }
     }
 
-    public IDistribuidorService getDistribuidorService() {
-        return distribuidorService;
+    // --- Getter único expuesto para el servicio de Deudas ---
+
+    public IDeudaUGELService getDeudaUGELService() {
+        return deudaUGELService;
     }
 
-    // Getter para exponer el servicio de videojuegos si se requiere externamente
-    public IVideojuegoService getVideojuegoService() {
-        return videojuegoService;
-    }
-
+    /**
+     * Cierre limpio de recursos al salir de la aplicación.
+     */
     public void destroy() {
-        dbConfig.close();
+        if (dbConfig != null) {
+            dbConfig.close();
+        }
     }
 }

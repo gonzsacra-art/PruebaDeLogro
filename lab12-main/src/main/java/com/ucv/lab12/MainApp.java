@@ -10,20 +10,21 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
         AppContext context = AppContext.getInstance();
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/com/ucv/lab12/Menu.fxml")
+                getClass().getResource("/com/ucv/lab12/MenuModulo.fxml")
         );
 
         loader.setControllerFactory(context::getController);
 
-        Scene scene = new Scene(loader.load(), 900, 600);
 
-        stage.setTitle("Sistema de Gestión");
+        Scene scene = new Scene(loader.load());
+
+        stage.setTitle("Sistema de Gestión de Deudas - UGEL");
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.centerOnScreen();
         stage.show();
     }
 

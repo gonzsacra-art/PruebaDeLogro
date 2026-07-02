@@ -28,8 +28,8 @@ public class DatabaseConfig implements AutoCloseable {
 
             "jdbc:sqlserver://localhost:1433;"
             + "instanceName=SQLEXPRESS;"
-            + "databaseName=lab12;"
-            + "user=adm3;"
+            + "databaseName=UGEL;"
+            + "user=adm4;"
             + "password=123456cris;"
             + "trustServerCertificate=true;"
             + "encrypt=false;";
